@@ -1,4 +1,6 @@
-﻿using DatabaseRepPattern.Models;
+﻿using AutoMapper;
+using DatabaseRepPattern.Models;
+using DatabaseRepPattern.Models.Dtos;
 using DatabaseRepPattern.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,28 +13,18 @@ namespace DatabaseRepPattern.Repository
     public class CustomersRepository : Repository<Customer>, ICustomersRepository
     {
         private readonly DataBase _context;
-        public CustomersRepository(DataBase context) : base(context)
+        private readonly IMapper _mapper;
+        public CustomersRepository(DataBase context, IMapper mapper) : base(context)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public void Update(Customer update)
+        public void Update(Customer oryginal, CustomerUpdateDto update)
         {
-            var oryginal = _context.Customers.FirstOrDefault(c => c.id==update.id);
-            if(oryginal != null)
+            if(oryginal != null && update != null)
             {
-                oryginal.login = update.login;
-                oryginal.name = update.name;
-                oryginal.surname = update.surname;
-                oryginal.street = update.street;
-                oryginal.postalcode = update.postalcode;
-                oryginal.number = update.number;
-                oryginal.houseNumber = update.houseNumber;
-                oryginal.email = update.email;
-                oryginal.description = update.description;
-                oryginal.creditcard = update.creditcard;
-                oryginal.country = update.country;
-                oryginal.city = update.city;
+                _mapper.Map(update, oryginal);
             }
         }
     }

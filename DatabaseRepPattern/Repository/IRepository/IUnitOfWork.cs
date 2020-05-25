@@ -11,5 +11,6 @@ namespace DatabaseRepPattern.Repository.IRepository
         IItemsRepository Items { get; }
         IOrdersRepository Orders { get; }
         ISP_Call SP_Call { get; }
+        Task<bool> Save();
     }
 }

@@ -1,4 +1,5 @@
-﻿using DatabaseRepPattern.Repository.IRepository;
+﻿using AutoMapper;
+using DatabaseRepPattern.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,11 @@ namespace DatabaseRepPattern.Repository
         public IOrdersRepository Orders { get; private set; }
         public ISP_Call SP_Call { get; private set; }
 
-        public UnitOfWork(DataBase db)
+        public UnitOfWork(DataBase db, IMapper mapper)
         {
             _db = db;
-            Customers = new CustomersRepository(_db);
-            Items = new ItemsRepository(_db);
+            Customers = new CustomersRepository(_db, mapper);
+            Items = new ItemsRepository(_db, mapper);
             Orders = new OrdersRepository(_db);
             SP_Call = new SP_Call(_db);
         }

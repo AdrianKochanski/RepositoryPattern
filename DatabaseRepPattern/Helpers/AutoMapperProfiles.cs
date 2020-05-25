@@ -20,6 +20,11 @@ namespace DatabaseRepPattern.Helpers
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.dateOfBirth.Age()));
             CreateMap<Order, OrderDto>();
             CreateMap<Item, ItemDto>();
+            CreateMap<CustomerUpdateDto, Customer>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<ItemCreateDto, Item>();
+            CreateMap<ItemUpdateDto, Item>()
+                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DatabaseRepPattern.Models;
+using DatabaseRepPattern.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace DatabaseRepPattern.Repository.IRepository
 {
     public interface ICustomersRepository : IRepository<Customer>
     {
-        void Update(Customer customer);
+        void Update(Customer oryginal, CustomerUpdateDto update);
     }
 }

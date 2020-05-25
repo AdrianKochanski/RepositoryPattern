@@ -111,5 +111,37 @@ namespace DatabaseRepPattern.Controllers
             var ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
             return Ok(ordersDto);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCustomer(int id, CustomerUpdateDto update)
+        {
+            var userOryginal = await _unitOfWork.Customers.Get(id);
+            if (userOryginal == null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.Customers.Update(userOryginal, update);
+            if (await _unitOfWork.Save())
+            {
+                return NoContent();
+            }
+            throw new Exception($"Updating user {id} failed");
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteOne(int id)
+        {
+            var customer = await _unitOfWork.Customers.Get(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.Customers.Remove(customer);
+            if(await _unitOfWork.Save())
+            {
+                return NoContent();
+            }
+            throw new Exception($"Deleting user {id} failed");
+        }
     }
 }

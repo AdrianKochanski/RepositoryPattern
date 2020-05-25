@@ -9,7 +9,7 @@ namespace DatabaseRepPattern.Repository
 {
     public class DataBase : DbContext
     {
-        private static bool _created = false;
+        // private static bool _created = false;
         public DataBase(DbContextOptions<DataBase> options) : base(options) {
             //if (!_created)
             //{

@@ -1,4 +1,6 @@
-﻿using DatabaseRepPattern.Models;
+﻿using AutoMapper;
+using DatabaseRepPattern.Models;
+using DatabaseRepPattern.Models.Dtos;
 using DatabaseRepPattern.Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -10,22 +12,18 @@ namespace DatabaseRepPattern.Repository
     public class ItemsRepository : Repository<Item>, IItemsRepository
     {
         private readonly DataBase _context;
-        public ItemsRepository(DataBase context) : base(context)
+        private readonly IMapper _mapper;
+        public ItemsRepository(DataBase context, IMapper mapper) : base(context)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public void Update(Item update)
+        public void Update(Item oryginal, ItemUpdateDto update)
         {
-            var oryginal = _context.Items.FirstOrDefault(c => c.id == update.id);
             if (oryginal != null)
             {
-                oryginal.category = update.category;
-                oryginal.isNew = update.isNew;
-                oryginal.price = update.price;
-                oryginal.name = update.name;
-                oryginal.description = update.description;
-                oryginal.warrantyEnd = update.warrantyEnd;
+                _mapper.Map(update, oryginal);
             }
         }
     }

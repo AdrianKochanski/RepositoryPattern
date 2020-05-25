@@ -84,8 +84,8 @@ namespace DatabaseRepPattern.Repository
 
         public async Task Remove(int id)
         {
-            var entity = await dbSet.FindAsync(id);
-            dbSet.Remove(entity);
+            T entity = await dbSet.FindAsync(id);
+            Remove(entity);
         }
 
         public void Remove(T entity)
